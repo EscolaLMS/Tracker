@@ -2,6 +2,12 @@
 
 namespace EscolaLms\Tracker;
 
+use EscolaLms\Tracker\Http\Middleware\TrackRouteMiddleware;
+use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
+use EscolaLms\Tracker\Repositories\TrackRouteRepository;
+use EscolaLms\Tracker\Services\Contracts\TrackRouteServiceContract;
+use EscolaLms\Tracker\Services\TrackRouteService;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -9,7 +15,17 @@ use Illuminate\Support\ServiceProvider;
  */
 class EscolaLmsTrackerServiceProvider extends ServiceProvider
 {
-    const CONFIG_KEY = 'escolalms_tracker';
+    public const CONFIG_KEY = 'escolalms_tracker';
+
+    public const SERVICES = [
+        TrackRouteServiceContract::class => TrackRouteService::class,
+    ];
+
+    public const REPOSITORIES = [
+        TrackRouteRepositoryContract::class => TrackRouteRepository::class,
+    ];
+
+    public $singletons = self::SERVICES + self::REPOSITORIES;
 
     public function register()
     {
@@ -24,6 +40,11 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
+        }
+
+        if (config(self::CONFIG_KEY . '.enabled')) {
+            $this->app->make(Kernel::class)
+                ->pushMiddleware(TrackRouteMiddleware::class);
         }
     }
 
