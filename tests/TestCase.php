@@ -2,7 +2,7 @@
 
 namespace EscolaLms\Tracker\Tests;
 
-use EscolaLms\Core\Models\User;
+use EscolaLms\Auth\Models\User;
 use EscolaLms\Tracker\EscolaLmsTrackerServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\PassportServiceProvider;

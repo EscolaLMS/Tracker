@@ -6,9 +6,10 @@ use EscolaLms\Core\Dtos\PaginationDto;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
 use EscolaLms\Tracker\Http\Controllers\Swagger\TrackControllerSwagger;
+use EscolaLms\Tracker\Http\Requests\TrackRouteListRequest;
+use EscolaLms\Tracker\Http\Resources\TrackRouteResource;
 use EscolaLms\Tracker\Services\Contracts\TrackRouteServiceContract;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TrackerController extends EscolaLmsBaseController implements TrackControllerSwagger
 {
@@ -19,13 +20,16 @@ class TrackerController extends EscolaLmsBaseController implements TrackControll
         $this->trackRouteService = $trackRouteService;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(TrackRouteListRequest $request): JsonResponse
     {
         $results = $this->trackRouteService->getTrackRoutes(
             PaginationDto::instantiateFromRequest($request),
             TrackRouteSearchDto::instantiateFromRequest($request)
         );
 
-        return new JsonResponse($results);
+        return $this->sendResponseForResource(
+            TrackRouteResource::collection($results),
+            __('Track routes retrieved successfully')
+        );
     }
 }

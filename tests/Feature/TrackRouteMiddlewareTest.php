@@ -49,7 +49,6 @@ class TrackRouteMiddlewareTest extends TestCase
         ]);
     }
 
-
     public function testDeleteTrackRoute(): void
     {
         $route = $this->route . '/1';
@@ -63,7 +62,6 @@ class TrackRouteMiddlewareTest extends TestCase
         ]);
     }
 
-
     public function testPostTrackRoute(): void
     {
         $this->actingAs($this->admin, 'api')->json('POST',  $this->route, ['foo' => 'bar']);
@@ -75,7 +73,6 @@ class TrackRouteMiddlewareTest extends TestCase
             'method' => 'POST'
         ]);
     }
-
 
     public function testPatchTrackRoute(): void
     {
