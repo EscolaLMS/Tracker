@@ -21,7 +21,11 @@ class TrackRouteMiddleware
     public function handle(Request $request, Closure $next)
     {
         $path = $request->getPathInfo();
-        if (!RouteTracker::isPrefix($path) || RouteTracker::isInIgnoreUri($path)) {
+        if (
+            !RouteTracker::enabled() ||
+            !RouteTracker::isPrefix($path) ||
+            RouteTracker::isInIgnoreUri($path)
+        ) {
             return $next($request);
         }
 

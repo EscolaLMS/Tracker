@@ -3,7 +3,7 @@
 return [
     'enabled' => env('TRACKER_ENABLED', true),
 
-    'rotes' => [
+    'routes' => [
         'prefix' => env('TRACKER_ROUTE_PREFIX', '/api/admin'),
         'ignore' => [
             '/api/admin/tracks/routes'

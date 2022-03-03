@@ -4,11 +4,11 @@ namespace EscolaLms\Tracker\Trackers;
 
 use Illuminate\Support\Str;
 
-class RouteTracker
+class RouteTracker extends AbstractTracker
 {
     public static function getIgnoreUris(): array
     {
-        return config('escolalms_tracker.rotes.ignore');
+        return config('escolalms_tracker.routes.ignore');
     }
 
     public static function isInIgnoreUri(string $uri): bool
@@ -18,12 +18,12 @@ class RouteTracker
 
     public static function getPrefix(): string
     {
-        return config('escolalms_tracker.rotes.prefix');
+        return config('escolalms_tracker.routes.prefix');
     }
 
     public static function hasSetPrefix(): bool
     {
-        return config('escolalms_tracker.rotes.prefix') !== null;
+        return config('escolalms_tracker.routes.prefix') !== null;
     }
 
     public static function isPrefix(string $path): bool
