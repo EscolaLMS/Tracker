@@ -10,5 +10,4 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface TrackRouteRepositoryContract extends BaseRepositoryContract
 {
     public function searchAndPaginateByCriteria(TrackRouteSearchDto $criteria, ?PaginationDto $paginationDto = null): LengthAwarePaginator;
-
 }

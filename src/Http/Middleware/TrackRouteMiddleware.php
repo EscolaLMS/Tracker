@@ -3,38 +3,27 @@
 namespace EscolaLms\Tracker\Http\Middleware;
 
 use Closure;
-use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
-use EscolaLms\Tracker\Trackers\RouteTracker;
+use EscolaLms\Tracker\Trackers\Contracts\RouteTrackerContract;
 use Illuminate\Http\Request;
 
 class TrackRouteMiddleware
 {
-    private TrackRouteRepositoryContract $repository;
+    private RouteTrackerContract $tracker;
 
     public function __construct(
-        TrackRouteRepositoryContract $repository
+        RouteTrackerContract $tracker
     )
     {
-        $this->repository = $repository;
+        $this->tracker = $tracker;
     }
 
     public function handle(Request $request, Closure $next)
     {
-        $path = $request->getPathInfo();
-        if (
-            !RouteTracker::enabled() ||
-            !RouteTracker::isPrefix($path) ||
-            RouteTracker::isInIgnoreUri($path)
-        ) {
+        if (!$this->tracker->checkRequest($request)) {
             return $next($request);
         }
 
-        $this->repository->create([
-            'user_id' => auth()->user() ? auth()->user()->id : null,
-            'path' => $path,
-            'full_path' => $request->getRequestUri(),
-            'method' => $request->getMethod(),
-        ]);
+        $this->tracker->trackRoute($request);
 
         return $next($request);
     }

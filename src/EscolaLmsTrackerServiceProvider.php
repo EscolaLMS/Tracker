@@ -7,6 +7,10 @@ use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
 use EscolaLms\Tracker\Repositories\TrackRouteRepository;
 use EscolaLms\Tracker\Services\Contracts\TrackRouteServiceContract;
 use EscolaLms\Tracker\Services\TrackRouteService;
+use EscolaLms\Tracker\Trackers\Contracts\RouteTrackerContract;
+use EscolaLms\Tracker\Trackers\Contracts\TrackerContract;
+use EscolaLms\Tracker\Trackers\RouteTracker;
+use EscolaLms\Tracker\Trackers\Tracker;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +29,12 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
         TrackRouteRepositoryContract::class => TrackRouteRepository::class,
     ];
 
-    public $singletons = self::SERVICES + self::REPOSITORIES;
+    public const TRACKERS = [
+        TrackerContract::class => Tracker::class,
+        RouteTrackerContract::class => RouteTracker::class,
+    ];
+
+    public $singletons = self::SERVICES + self::REPOSITORIES + self::TRACKERS;
 
     public function register()
     {

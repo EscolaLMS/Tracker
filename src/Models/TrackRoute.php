@@ -3,6 +3,7 @@
 namespace EscolaLms\Tracker\Models;
 
 use EscolaLms\Tracker\Database\Factories\TrackRouteFactory;
+use EscolaLms\Tracker\Facades\Tracker;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,9 +23,9 @@ class TrackRoute extends Model
         'extra' => 'array'
     ];
 
-    public function getConnectionName()
+    public function getConnectionName(): string
     {
-        return config('escolalms_tracker.database.connection') ?? $this->connection;
+        return Tracker::getConnection() ?? $this->connection;
     }
 
     protected static function newFactory(): TrackRouteFactory

@@ -3,6 +3,7 @@
 namespace EscolaLms\Tracker\Tests\Feature;
 
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\Tracker\Facades\Tracker;
 use EscolaLms\Tracker\Tests\TestCase;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -28,7 +29,7 @@ class TrackRouteConfigTest extends TestCase
 
     public function testTrackerEnabled(): void
     {
-        Config::set('escolalms_tracker.enabled', true);
+        Tracker::enable();
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
 
@@ -42,7 +43,7 @@ class TrackRouteConfigTest extends TestCase
 
     public function testTrackerDisabled(): void
     {
-        Config::set('escolalms_tracker.enabled', false);
+        Tracker::disable();
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
 
@@ -57,9 +58,7 @@ class TrackRouteConfigTest extends TestCase
     public function testTrackerIgnoreRoutes(): void
     {
         $ignoreRoute = '/api/admin/ignore-route';
-        Config::set('escolalms_tracker.routes.ignore', [
-            $ignoreRoute
-        ]);
+        Tracker::ignoreUris([$ignoreRoute]);
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
         $this->actingAs($this->admin, 'api')->json('GET', $ignoreRoute);
@@ -80,7 +79,7 @@ class TrackRouteConfigTest extends TestCase
 
     public function testTrackerEmptyIgnoreRoutes(): void
     {
-        Config::set('escolalms_tracker.routes.ignore', []);
+        Tracker::ignoreUris([]);
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
         $this->assertDatabaseHas('track_routes', [
@@ -93,7 +92,7 @@ class TrackRouteConfigTest extends TestCase
 
     public function testTrackerPrefix(): void
     {
-        Config::set('escolalms_tracker.routes.prefix', '/api/new-prefix');
+        Tracker::prefix('/api/new-prefix');
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
         $this->assertDatabaseMissing('track_routes', [
@@ -115,7 +114,7 @@ class TrackRouteConfigTest extends TestCase
 
     public function testTrackerEmptyPrefix(): void
     {
-        Config::set('escolalms_tracker.routes.prefix', null);
+        Tracker::prefix(null);
 
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
         $this->assertDatabaseHas('track_routes', [
