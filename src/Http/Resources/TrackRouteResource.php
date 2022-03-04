@@ -10,7 +10,7 @@ class TrackRouteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user' => UserResource::make($this->user),
             'path' => $this->path,
             'full_path' => $this->full_path,
             'method' => $this->method,

@@ -2,6 +2,8 @@
 
 namespace EscolaLms\Tracker\Dto;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use EscolaLms\Core\Dtos\Contracts\DtoContract;
 use EscolaLms\Core\Dtos\Contracts\InstantiateFromRequest;
 use Illuminate\Http\Request;
@@ -11,16 +13,22 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
     private ?string $path;
     private ?string $method;
     private ?string $userId;
+    private ?CarbonInterface $dateFrom;
+    private ?CarbonInterface $dateTo;
 
     public function __construct(
         ?string $path,
         ?string $method,
-        ?string $userId
+        ?string $userId,
+        ?CarbonInterface $dateFrom,
+        ?CarbonInterface $dateTo
     )
     {
         $this->path = $path;
         $this->method = $method;
         $this->userId = $userId;
+        $this->dateFrom = $dateFrom;
+        $this->dateTo = $dateTo;
     }
 
     public function toArray(): array
@@ -29,6 +37,8 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
             'path' => $this->path,
             'method' => $this->method,
             'userId' => $this->userId,
+            'dateFrom' => $this->dateFrom,
+            'dateTo' => $this->dateTo,
         ];
     }
 
@@ -38,6 +48,8 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
             $request->input('path'),
             $request->input('method'),
             $request->input('user_id'),
+            new Carbon($request->input('date_from')),
+            new Carbon($request->input('date_to')),
         );
     }
 
@@ -54,5 +66,15 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
     public function getUserId(): ?string
     {
         return $this->userId;
+    }
+
+    public function getDateFrom(): ?CarbonInterface
+    {
+        return $this->dateFrom;
+    }
+
+    public function getDateTo(): ?CarbonInterface
+    {
+        return $this->dateTo;
     }
 }

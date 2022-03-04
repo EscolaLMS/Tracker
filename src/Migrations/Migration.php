@@ -2,13 +2,14 @@
 
 namespace EscolaLms\Tracker\Migrations;
 
+use EscolaLms\Tracker\Facades\Tracker;
 use Illuminate\Database\Migrations\Migration as BaseMigration;
 
 class Migration extends BaseMigration
 {
     public function __construct()
     {
-        $this->setConnection(config('escolalms_tracker.database.connection'));
+        $this->setConnection(Tracker::getConnection());
     }
 
     public function setConnection($connection): Migration

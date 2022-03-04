@@ -21,6 +21,12 @@ class CreateTrackRoutesTable extends Migration
             $table->text('method')->nullable();
             $table->json('extra')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

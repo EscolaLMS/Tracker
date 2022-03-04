@@ -4,6 +4,7 @@ namespace EscolaLms\Tracker\Repositories;
 
 use EscolaLms\Core\Dtos\PaginationDto;
 use EscolaLms\Core\Repositories\BaseRepository;
+use EscolaLms\Core\Repositories\Criteria\Primitives\DateCriterion;
 use EscolaLms\Core\Repositories\Criteria\Primitives\EqualCriterion;
 use EscolaLms\Core\Repositories\Criteria\Primitives\LikeCriterion;
 use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
@@ -44,6 +45,8 @@ class TrackRouteRepository extends BaseRepository implements TrackRouteRepositor
             $criteria->getPath() ? new LikeCriterion('path', $criteria->getPath()) : null,
             $criteria->getMethod() ? new EqualCriterion('method', $criteria->getMethod()) : null,
             $criteria->getUserId() ? new EqualCriterion('user_id', $criteria->getUserId()) : null,
+            $criteria->getDateFrom() ? new DateCriterion('created_at', $criteria->getDateFrom(), '>=') : null,
+            $criteria->getDateTo() ? new DateCriterion('created_at', $criteria->getDateTo(), '<=') : null,
         ];
     }
 }

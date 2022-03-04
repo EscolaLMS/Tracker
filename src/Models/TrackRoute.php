@@ -2,10 +2,12 @@
 
 namespace EscolaLms\Tracker\Models;
 
+use EscolaLms\Core\Models\User;
 use EscolaLms\Tracker\Database\Factories\TrackRouteFactory;
 use EscolaLms\Tracker\Facades\Tracker;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TrackRoute extends Model
 {
@@ -23,9 +25,14 @@ class TrackRoute extends Model
         'extra' => 'array'
     ];
 
-    public function getConnectionName(): string
+    public function getConnectionName(): ?string
     {
         return Tracker::getConnection() ?? $this->connection;
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     protected static function newFactory(): TrackRouteFactory
