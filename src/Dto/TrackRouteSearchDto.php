@@ -48,8 +48,8 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
             $request->input('path'),
             $request->input('method'),
             $request->input('user_id'),
-            new Carbon($request->input('date_from')),
-            new Carbon($request->input('date_to')),
+            $request->input('date_from') ? new Carbon($request->input('date_from')) : null,
+            $request->input('date_to') ? new Carbon($request->input('date_to')) : null,
         );
     }
 
