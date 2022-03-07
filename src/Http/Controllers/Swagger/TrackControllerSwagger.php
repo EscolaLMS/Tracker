@@ -42,6 +42,24 @@ interface TrackControllerSwagger
      *             type="string"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         description="Date from",
+     *         in="query",
+     *         name="date_from",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         description="Date to",
+     *         in="query",
+     *         name="date_to",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="List of available",
