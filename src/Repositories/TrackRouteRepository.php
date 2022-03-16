@@ -36,7 +36,9 @@ class TrackRouteRepository extends BaseRepository implements TrackRouteRepositor
         $query = $this->model->newQuery();
         $query = $this->applyCriteria($query, $criteria);
 
-        return $query->paginate($paginationDto->getLimit());
+        return $query
+            ->with(['user'])
+            ->paginate($paginationDto->getLimit());
     }
 
     private function makeCriteria(TrackRouteSearchDto $criteria): array
