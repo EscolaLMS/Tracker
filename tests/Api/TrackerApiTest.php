@@ -44,10 +44,69 @@ class TrackerApiTest extends TestCase
 
     public function testIndexPagination(): void
     {
-        TrackRoute::factory()->count(30)->create();
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes?page=1&limit=10');
+        TrackRoute::factory()->count(25)->create();
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes?page=1&per_page=10');
 
         $this->assertApiResponse($response, 10);
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes?page=3&per_page=10');
+        $this->assertApiResponse($response, 5);
+    }
+
+    public function testIndexOrderById(): void
+    {
+        $tracks = TrackRoute::factory()->count(10)->create();
+        $first = $tracks->first();
+        $last = $tracks->last();
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?order_by=id&order=asc');
+
+        $this->assertApiResponse($response, 10);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($first->getKey(), $data[0]->id);
+        $this->assertEquals($last->getKey(), $data[9]->id);
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?order_by=id&order=desc');
+
+        $this->assertApiResponse($response, 10);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($first->getKey(), $data[9]->id);
+        $this->assertEquals($last->getKey(), $data[0]->id);
+    }
+
+    public function testIndexOrderByCreatedAt(): void
+    {
+        $firstDate = Carbon::now()->subDay();
+        $first = TrackRoute::factory()->create(['created_at' => $firstDate]);
+        $lastDate = Carbon::now()->addDay();
+        $last = TrackRoute::factory()->create(['created_at' => $lastDate]);
+        TrackRoute::factory()->count(10)->create();
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?per_page=15&order_by=created_at&order=asc');
+
+        $this->assertApiResponse($response, 12);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($first->created_at, Carbon::parse($data[0]->created_at));
+        $this->assertEquals($last->created_at, Carbon::parse($data[count($data) - 1]->created_at));
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?per_page=15&order_by=created_at&order=desc');
+
+        $this->assertApiResponse($response, 12);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($first->created_at, Carbon::parse($data[count($data) - 1]->created_at));
+        $this->assertEquals($last->created_at, Carbon::parse($data[0]->created_at));
     }
 
     public function testIndexFilterByUserId(): void
@@ -155,6 +214,7 @@ class TrackerApiTest extends TestCase
                 'full_path',
                 'method',
                 'extra',
+                'created_at'
             ]]
         ]);
     }

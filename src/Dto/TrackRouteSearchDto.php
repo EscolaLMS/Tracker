@@ -42,7 +42,7 @@ class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
         ];
     }
 
-    public static function instantiateFromRequest(Request $request): InstantiateFromRequest
+    public static function instantiateFromRequest(Request $request): self
     {
         return new static(
             $request->input('path'),

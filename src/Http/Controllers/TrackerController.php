@@ -2,8 +2,9 @@
 
 namespace EscolaLms\Tracker\Http\Controllers;
 
-use EscolaLms\Core\Dtos\PaginationDto;
+use EscolaLms\Core\Dtos\OrderDto;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
+use EscolaLms\Tracker\Dto\PaginationDto;
 use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
 use EscolaLms\Tracker\Http\Controllers\Swagger\TrackControllerSwagger;
 use EscolaLms\Tracker\Http\Requests\TrackRouteListRequest;
@@ -23,8 +24,9 @@ class TrackerController extends EscolaLmsBaseController implements TrackControll
     public function index(TrackRouteListRequest $request): JsonResponse
     {
         $results = $this->trackRouteService->getTrackRoutes(
+            TrackRouteSearchDto::instantiateFromRequest($request),
             PaginationDto::instantiateFromRequest($request),
-            TrackRouteSearchDto::instantiateFromRequest($request)
+            OrderDto::instantiateFromRequest($request)
         );
 
         return $this->sendResponseForResource(

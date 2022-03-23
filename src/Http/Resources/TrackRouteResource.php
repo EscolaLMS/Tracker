@@ -14,7 +14,8 @@ class TrackRouteResource extends JsonResource
             'path' => $this->path,
             'full_path' => $this->full_path,
             'method' => $this->method,
-            'extra' => $this->extra
+            'extra' => $this->extra,
+            'created_at' => $this->created_at
         ];
     }
 }
