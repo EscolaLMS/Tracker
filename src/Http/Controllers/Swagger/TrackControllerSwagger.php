@@ -15,6 +15,44 @@ interface TrackControllerSwagger
      *     security={
      *         {"passport": {}},
      *     },
+     *      @OA\Parameter(
+     *          name="order_by",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string",
+     *              enum={"created_at", "id"}
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="order",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string",
+     *              enum={"ASC", "DESC"}
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="page",
+     *          description="Pagination Page Number",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="number",
+     *               default=1,
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          description="Pagination Per Page",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="number",
+     *              default=15,
+     *          ),
+     *      ),
      *     @OA\Parameter(
      *         description="Id of User",
      *         in="query",

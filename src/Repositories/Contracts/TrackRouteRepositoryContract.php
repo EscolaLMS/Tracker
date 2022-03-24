@@ -2,12 +2,11 @@
 
 namespace EscolaLms\Tracker\Repositories\Contracts;
 
-use EscolaLms\Core\Dtos\PaginationDto;
 use EscolaLms\Core\Repositories\Contracts\BaseRepositoryContract;
-use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
+use EscolaLms\Tracker\Enums\QueryEnum;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface TrackRouteRepositoryContract extends BaseRepositoryContract
 {
-    public function searchAndPaginateByCriteria(TrackRouteSearchDto $criteria, ?PaginationDto $paginationDto = null): LengthAwarePaginator;
+    public function searchAndPaginateByCriteria(array $criteria, ?int $perPage = QueryEnum::PER_PAGE): LengthAwarePaginator;
 }
