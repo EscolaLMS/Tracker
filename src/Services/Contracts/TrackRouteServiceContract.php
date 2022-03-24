@@ -9,5 +9,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface TrackRouteServiceContract
 {
-    public function getTrackRoutes(TrackRouteSearchDto $searchDto, PaginationDto $paginationDto, OrderDto $orderDto): LengthAwarePaginator;
+    public function getTrackRoutes(TrackRouteSearchDto $searchDto, PaginationDto $paginationDto): LengthAwarePaginator;
 }

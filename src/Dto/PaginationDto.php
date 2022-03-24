@@ -4,6 +4,7 @@ namespace EscolaLms\Tracker\Dto;
 
 use EscolaLms\Core\Dtos\Contracts\DtoContract;
 use EscolaLms\Core\Dtos\Contracts\InstantiateFromRequest;
+use EscolaLms\Tracker\Enums\QueryEnum;
 use Illuminate\Http\Request;
 
 class PaginationDto implements DtoContract, InstantiateFromRequest
@@ -27,7 +28,7 @@ class PaginationDto implements DtoContract, InstantiateFromRequest
 
     public static function instantiateFromRequest(Request $request): self
     {
-        $per_page = config('paginate.default.limit', 15);
+        $per_page = config('paginate.default.limit', QueryEnum::PER_PAGE);
 
         if ($request->get('page')) {
             return new self(

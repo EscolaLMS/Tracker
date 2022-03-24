@@ -45,12 +45,35 @@ class TrackerApiTest extends TestCase
     public function testIndexPagination(): void
     {
         TrackRoute::factory()->count(25)->create();
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes?page=1&per_page=10');
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?page=1&per_page=10');
 
         $this->assertApiResponse($response, 10);
 
-        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes?page=3&per_page=10');
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?page=3&per_page=10');
         $this->assertApiResponse($response, 5);
+    }
+
+    public function testIndexDefaultSortByCeatedAt(): void
+    {
+        $firstDate = Carbon::now()->subDay();
+        $first = TrackRoute::factory()->create(['created_at' => $firstDate]);
+        $lastDate = Carbon::now()->addDay();
+        $last = TrackRoute::factory()->create(['created_at' => $lastDate]);
+        TrackRoute::factory()->count(10)->create();
+
+        $response = $this
+            ->actingAs($this->admin, 'api')
+            ->json('GET', 'api/admin/tracks/routes?per_page=15');
+
+        $this->assertApiResponse($response, 12);
+
+        $data = $response->getData()->data;
+        $this->assertEquals($last->created_at, Carbon::parse($data[0]->created_at));
+        $this->assertEquals($first->created_at, Carbon::parse($data[count($data) - 1]->created_at));
     }
 
     public function testIndexOrderById(): void

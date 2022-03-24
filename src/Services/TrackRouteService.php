@@ -18,16 +18,11 @@ class TrackRouteService implements TrackRouteServiceContract
         $this->trackRouteRepository = $trackRouteRepository;
     }
 
-    public function getTrackRoutes(
-        TrackRouteSearchDto $searchDto,
-        PaginationDto $paginationDto,
-        OrderDto $orderDto
-    ): LengthAwarePaginator
+    public function getTrackRoutes(TrackRouteSearchDto $searchDto, PaginationDto $paginationDto): LengthAwarePaginator
     {
         return $this->trackRouteRepository->searchAndPaginateByCriteria(
-            $searchDto,
-            $paginationDto,
-            $orderDto
+            $searchDto->toArray(),
+            $paginationDto->getPerPage()
         );
     }
 }

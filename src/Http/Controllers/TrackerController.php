@@ -2,7 +2,6 @@
 
 namespace EscolaLms\Tracker\Http\Controllers;
 
-use EscolaLms\Core\Dtos\OrderDto;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Tracker\Dto\PaginationDto;
 use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
@@ -25,8 +24,7 @@ class TrackerController extends EscolaLmsBaseController implements TrackControll
     {
         $results = $this->trackRouteService->getTrackRoutes(
             TrackRouteSearchDto::instantiateFromRequest($request),
-            PaginationDto::instantiateFromRequest($request),
-            OrderDto::instantiateFromRequest($request)
+            PaginationDto::instantiateFromRequest($request)
         );
 
         return $this->sendResponseForResource(
