@@ -2,7 +2,8 @@
 
 namespace EscolaLms\Tracker\Services;
 
-use EscolaLms\Core\Dtos\PaginationDto;
+use EscolaLms\Core\Dtos\OrderDto;
+use EscolaLms\Tracker\Dto\PaginationDto;
 use EscolaLms\Tracker\Dto\TrackRouteSearchDto;
 use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
 use EscolaLms\Tracker\Services\Contracts\TrackRouteServiceContract;
@@ -17,11 +18,11 @@ class TrackRouteService implements TrackRouteServiceContract
         $this->trackRouteRepository = $trackRouteRepository;
     }
 
-    public function getTrackRoutes(PaginationDto $paginationDto, TrackRouteSearchDto $searchDto): LengthAwarePaginator
+    public function getTrackRoutes(TrackRouteSearchDto $searchDto, PaginationDto $paginationDto): LengthAwarePaginator
     {
         return $this->trackRouteRepository->searchAndPaginateByCriteria(
-            $searchDto,
-            $paginationDto
+            $searchDto->toArray(),
+            $paginationDto->getPerPage()
         );
     }
 }

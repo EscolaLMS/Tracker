@@ -3,78 +3,58 @@
 namespace EscolaLms\Tracker\Dto;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterface;
 use EscolaLms\Core\Dtos\Contracts\DtoContract;
 use EscolaLms\Core\Dtos\Contracts\InstantiateFromRequest;
+use EscolaLms\Core\Dtos\CriteriaDto;
+use EscolaLms\Core\Repositories\Criteria\Primitives\DateCriterion;
+use EscolaLms\Core\Repositories\Criteria\Primitives\EqualCriterion;
+use EscolaLms\Core\Repositories\Criteria\Primitives\LikeCriterion;
+use EscolaLms\Tracker\Enums\QueryEnum;
+use EscolaLms\Tracker\Repositories\Criteria\OrderCriterion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-class TrackRouteSearchDto implements DtoContract, InstantiateFromRequest
+class TrackRouteSearchDto extends CriteriaDto implements DtoContract, InstantiateFromRequest
 {
-    private ?string $path;
-    private ?string $method;
-    private ?string $userId;
-    private ?CarbonInterface $dateFrom;
-    private ?CarbonInterface $dateTo;
-
-    public function __construct(
-        ?string $path,
-        ?string $method,
-        ?string $userId,
-        ?CarbonInterface $dateFrom,
-        ?CarbonInterface $dateTo
-    )
+    public static function instantiateFromRequest(Request $request): self
     {
-        $this->path = $path;
-        $this->method = $method;
-        $this->userId = $userId;
-        $this->dateFrom = $dateFrom;
-        $this->dateTo = $dateTo;
-    }
+        $criteria = new Collection();
 
-    public function toArray(): array
-    {
-        return [
-            'path' => $this->path,
-            'method' => $this->method,
-            'userId' => $this->userId,
-            'dateFrom' => $this->dateFrom,
-            'dateTo' => $this->dateTo,
-        ];
-    }
-
-    public static function instantiateFromRequest(Request $request): InstantiateFromRequest
-    {
-        return new static(
-            $request->input('path'),
-            $request->input('method'),
-            $request->input('user_id'),
-            $request->input('date_from') ? new Carbon($request->input('date_from')) : null,
-            $request->input('date_to') ? new Carbon($request->input('date_to')) : null,
+        $criteria->push(
+            new OrderCriterion(
+                $request->get('order_by') ?? QueryEnum::DEFAULT_SORT,
+                $request->get('order') ?? QueryEnum::DEFAULT_SORT_DIRECTION
+            )
         );
-    }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
+        if ($request->get('path')) {
+            $criteria->push(new LikeCriterion('path', $request->get('path')));
+        }
+        if ($request->get('method')) {
+            $criteria->push(new EqualCriterion('method', $request->get('method')));
+        }
+        if ($request->get('user_id')) {
+            $criteria->push(new EqualCriterion('user_id', $request->get('user_id')));
+        }
+        if ($request->get('date_from')) {
+            $criteria->push(
+                new DateCriterion(
+                    'created_at',
+                    new Carbon($request->get('date_from')),
+                    '>='
+                )
+            );
+        }
+        if ($request->get('date_to')) {
+            $criteria->push(
+                new DateCriterion(
+                    'created_at',
+                    new Carbon($request->get('date_to')),
+                    '<='
+                )
+            );
+        }
 
-    public function getMethod(): ?string
-    {
-        return $this->method;
-    }
-
-    public function getUserId(): ?string
-    {
-        return $this->userId;
-    }
-
-    public function getDateFrom(): ?CarbonInterface
-    {
-        return $this->dateFrom;
-    }
-
-    public function getDateTo(): ?CarbonInterface
-    {
-        return $this->dateTo;
+        return new static($criteria);
     }
 }
