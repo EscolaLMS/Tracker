@@ -17,7 +17,7 @@ By default, `/api/admin/tracks/routes` is ignored.
 - `php artisan db:seed --class="EscolaLms\Tracker\Database\Seeders\TrackerPermissionSeeder"`
 
 ## Configuration
-You can configure this package edit the file [config.php](src/config.php) or by specifying keys in the .env file.
+You can configure this package by specifying keys in the .env file.
 - `TRACKER_ENABLED` - enable or disable route tracking
 - `TRACKER_ROUTE_PREFIX` - set tracked route prefix
 
