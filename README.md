@@ -20,6 +20,7 @@ By default, `/api/admin/tracks/routes` is ignored.
 You can configure this package by specifying keys in the .env file.
 - `TRACKER_ENABLED` - enable or disable route tracking
 - `TRACKER_ROUTE_PREFIX` - set tracked route prefix
+- `TRACKER_CONNECTION` - database connection, by default `sqlite`
 
 You can also use [facade](src/Facades/Tracker.php) to configure tracker.
 

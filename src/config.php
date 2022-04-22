@@ -11,7 +11,7 @@ return [
     ],
 
     'database' => [
-        'connection' => env('TRACKER_CONNECTION', env('DB_CONNECTION')),
+        'connection' => env('TRACKER_CONNECTION', 'sqlite'),
     ],
 
     'user' => [
