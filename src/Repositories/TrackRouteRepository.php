@@ -7,6 +7,7 @@ use EscolaLms\Tracker\Enums\QueryEnum;
 use EscolaLms\Tracker\Models\TrackRoute;
 use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
 class TrackRouteRepository extends BaseRepository implements TrackRouteRepositoryContract
 {
@@ -36,5 +37,14 @@ class TrackRouteRepository extends BaseRepository implements TrackRouteRepositor
         return $query
             ->with(['user'])
             ->paginate($perPage);
+    }
+
+    public function create(array $input): Model
+    {
+        $model = $this->model->fill($input);
+
+        $model->save();
+
+        return $model;
     }
 }

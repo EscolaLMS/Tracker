@@ -13,4 +13,8 @@ return [
     'database' => [
         'connection' => env('TRACKER_CONNECTION', env('DB_CONNECTION')),
     ],
+
+    'user' => [
+        'model' => \EscolaLms\Core\Models\User::class
+    ]
 ];
