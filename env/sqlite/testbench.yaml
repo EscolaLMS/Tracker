@@ -2,6 +2,8 @@ env:
   - DB_CONNECTION=sqlite
   - DB_DATABASE=database.sqlite
   - TRACKER_CONNECTION=sqlite
+  - TRACKER_DATABASE=database.sqlite
+  - TRACKER_CREATE_DATABASE=false
 
 providers:
   - Spatie\Permission\PermissionServiceProvider

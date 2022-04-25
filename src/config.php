@@ -13,6 +13,7 @@ return [
     'database' => [
         'connection' => env('TRACKER_CONNECTION', 'sqlite'),
         'database' => env('TRACKER_DATABASE', 'database/database.sqlite'),
+        'create' => env('TRACKER_CREATE_DATABASE', true),
     ],
 
     'user' => [
