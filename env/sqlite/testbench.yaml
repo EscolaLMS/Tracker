@@ -1,0 +1,11 @@
+env:
+  - DB_CONNECTION=sqlite
+  - DB_DATABASE=database.sqlite
+  - TRACKER_CONNECTION=sqlite
+
+providers:
+  - Spatie\Permission\PermissionServiceProvider
+  - Laravel\Passport\PassportServiceProvider
+  - EscolaLms\Core\EscolaLmsServiceProvider
+  - EscolaLms\Auth\EscolaLmsAuthServiceProvider
+  - EscolaLms\Tracker\EscolaLmsTrackerServiceProvider
