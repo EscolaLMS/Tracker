@@ -57,7 +57,7 @@ class TrackerApiTest extends TestCase
         $this->assertApiResponse($response, 5);
     }
 
-    public function testIndexDefaultSortByCeatedAt(): void
+    public function testIndexDefaultSortByCreatedAt(): void
     {
         $firstDate = Carbon::now()->subDay();
         $first = TrackRoute::factory()->create(['created_at' => $firstDate]);

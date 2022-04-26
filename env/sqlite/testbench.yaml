@@ -1,12 +1,9 @@
 env:
-  - DB_CONNECTION=pgsql
-  - DB_HOST=postgres
-  - DB_PORT=5432
-  - DB_DATABASE=default
-  - DB_USERNAME=default
-  - DB_PASSWORD=secret
-  - APP_DEBUG=true
-  - TRACKER_CONNECTION=pgsql
+  - DB_CONNECTION=sqlite
+  - DB_DATABASE=database.sqlite
+  - TRACKER_CONNECTION=sqlite
+  - TRACKER_DATABASE=database.sqlite
+  - TRACKER_CREATE_DATABASE=false
 
 providers:
   - Spatie\Permission\PermissionServiceProvider

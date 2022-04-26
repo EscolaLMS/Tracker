@@ -7,7 +7,6 @@ use EscolaLms\Tracker\Facades\Tracker;
 use EscolaLms\Tracker\Tests\TestCase;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class TrackRouteConfigTest extends TestCase

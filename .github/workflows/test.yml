@@ -121,3 +121,30 @@ jobs:
 
       - name: Run tests
         run: vendor/bin/phpunit
+
+  php81-laravel-latest-phpunit-sqlite:
+    runs-on: ubuntu-latest
+    container:
+      image: escolalms/php:8.1-work
+
+    steps:
+      - name: Instantiate package
+        uses: actions/checkout@v2
+
+      - name: Update composer
+        run: composer update
+
+      - name: Setup environment
+        run: cp env/sqlite/* .
+
+      - name: Clear config
+        run: vendor/bin/testbench config:clear
+
+      - name: Create sqlite database
+        run: touch database.sqlite
+
+      - name: Publish things
+        run: vendor/bin/testbench migrate:fresh
+
+      - name: Run tests
+        run: vendor/bin/phpunit

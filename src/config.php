@@ -11,6 +11,12 @@ return [
     ],
 
     'database' => [
-        'connection' => env('TRACKER_CONNECTION', env('DB_CONNECTION')),
+        'connection' => env('TRACKER_CONNECTION', 'sqlite'),
+        'database' => env('TRACKER_DATABASE', 'database/database.sqlite'),
+        'create' => env('TRACKER_CREATE_DATABASE', true),
     ],
+
+    'user' => [
+        'model' => \EscolaLms\Core\Models\User::class
+    ]
 ];

@@ -3,6 +3,7 @@
 namespace EscolaLms\Tracker;
 
 use EscolaLms\Tracker\Http\Middleware\TrackRouteMiddleware;
+use EscolaLms\Tracker\Providers\SqliteServiceProvider;
 use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
 use EscolaLms\Tracker\Repositories\TrackRouteRepository;
 use EscolaLms\Tracker\Services\Contracts\TrackRouteServiceContract;
@@ -41,6 +42,7 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config.php', self::CONFIG_KEY);
 
         $this->app->register(AuthServiceProvider::class);
+        $this->app->register(SqliteServiceProvider::class);
     }
 
     public function boot()

@@ -29,8 +29,7 @@ abstract class AbstractTracker implements TrackerContract
 
     public function getConnection(): string
     {
-        // return Config::get('escolalms_tracker.database.connection', env('DB_CONNECTION'));
-        return env('DB_CONNECTION');
+        return Config::get('escolalms_tracker.database.connection', env('DB_CONNECTION'));
     }
 
     public function ignoreUris(array $uris): void

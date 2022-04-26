@@ -5,6 +5,7 @@ env:
   - DB_DATABASE=test
   - DB_USERNAME=postgres
   - DB_PASSWORD=postgres
+  - TRACKER_CONNECTION=pgsql
 
 providers:
   - Spatie\Permission\PermissionServiceProvider
