@@ -3,6 +3,7 @@
 namespace EscolaLms\Tracker\Tests\Feature;
 
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\Tracker\Facades\Tracker;
 use EscolaLms\Tracker\Tests\TestCase;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -27,6 +28,8 @@ class TrackRouteMiddlewareTest extends TestCase
 
     public function testTrackRoute(): void
     {
+        Tracker::ignoreHttpMethods([]);
+
         $this->actingAs($this->admin, 'api')->json('GET', $this->route);
 
         $this->assertDatabaseHas('track_routes', [
@@ -41,7 +44,7 @@ class TrackRouteMiddlewareTest extends TestCase
     {
         $this->actingAs($this->admin, 'api')->json('GET',  $this->route);
 
-        $this->assertDatabaseHas('track_routes', [
+        $this->assertDatabaseMissing('track_routes', [
             'user_id' => $this->admin->getKey(),
             'full_path' => $this->route,
             'path' => $this->route,

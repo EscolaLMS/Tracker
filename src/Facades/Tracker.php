@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Facade;
  * @method static           string getConnection()
  * @method static           string connection(string $connection)
  * @method static           void ignoreUris(array $uris)
+ * @method static           array getIgnoreUris()
+ * @method static           void ignoreHttpMethods(array $uris)
+ * @method static           array getIgnoreHttpMethods()
  * @method static           void prefix(?string $prefix)
+ * @method static           string getPrefix()
  *
  * @see \EscolaLms\Tracker\Trackers\Tracker
  */
