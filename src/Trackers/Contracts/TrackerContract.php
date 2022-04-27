@@ -18,6 +18,10 @@ interface TrackerContract
 
     public function getIgnoreUris(): array;
 
+    public function ignoreHttpMethods(array $httpMethods): void;
+
+    public function getIgnoreHttpMethods(): array;
+
     public function prefix(?string $prefix): void;
 
     public function getPrefix(): string;

@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Tracker\Trackers;
 
+use EscolaLms\Tracker\Enums\ConfigEnum;
 use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
 use EscolaLms\Tracker\Trackers\Contracts\RouteTrackerContract;
 use Illuminate\Http\Request;
@@ -23,9 +24,14 @@ class RouteTracker extends Tracker implements RouteTrackerContract
         return in_array($uri, $this->getIgnoreUris());
     }
 
+    public function isInIgnoreHttpMethod(string $method): bool
+    {
+        return in_array($method, $this->getIgnoreHttpMethods());
+    }
+
     public function hasSetPrefix(): bool
     {
-        return config('escolalms_tracker.routes.prefix') !== null;
+        return config(ConfigEnum::CONFIG_KEY . '.routes.prefix') !== null;
     }
 
     public function hasPrefix(string $path): bool
@@ -40,7 +46,12 @@ class RouteTracker extends Tracker implements RouteTrackerContract
     public function checkRequest(Request $request): bool
     {
         $path = $request->getPathInfo();
-        return $this->isEnabled() && $this->hasPrefix($path) && !$this->isInIgnoreUri($path);
+        $method = $request->getMethod();
+
+        return $this->isEnabled()
+            && $this->hasPrefix($path)
+            && !$this->isInIgnoreUri($path)
+            && !$this->isInIgnoreHttpMethod($method);
     }
 
     public function trackRoute(Request $request): void

@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Tracker\Trackers;
 
+use EscolaLms\Tracker\Enums\ConfigEnum;
 use EscolaLms\Tracker\Trackers\Contracts\TrackerContract;
 use Illuminate\Support\Facades\Config;
 
@@ -9,46 +10,58 @@ abstract class AbstractTracker implements TrackerContract
 {
     public function isEnabled(): bool
     {
-        return Config::get('escolalms_tracker.enabled', true);
+        return Config::get(ConfigEnum::CONFIG_KEY . '.enabled', true);
     }
 
     public function enable(): void
     {
-        Config::set('escolalms_tracker.enabled', true);
+        Config::set(ConfigEnum::CONFIG_KEY . '.enabled', true);
     }
 
     public function disable(): void
     {
-        Config::set('escolalms_tracker.enabled', false);
+        Config::set(ConfigEnum::CONFIG_KEY . '.enabled', false);
     }
 
     public function connection(string $connection): void
     {
-        Config::set('escolalms_tracker.database.connection', $connection);
+        Config::set(ConfigEnum::CONFIG_KEY . '.database.connection', $connection);
     }
 
     public function getConnection(): string
     {
-        return Config::get('escolalms_tracker.database.connection', env('DB_CONNECTION'));
+        return Config::get(ConfigEnum::CONFIG_KEY . '.database.connection', env('DB_CONNECTION'));
     }
 
     public function ignoreUris(array $uris): void
     {
-        Config::set('escolalms_tracker.routes.ignore', $uris);
+        $value = implode(',', $uris);
+        Config::set(ConfigEnum::CONFIG_KEY . '.routes.ignore.uris', $value);
     }
 
     public function getIgnoreUris(): array
     {
-        return Config::get('escolalms_tracker.routes.ignore');
+        return explode(',', Config::get(ConfigEnum::CONFIG_KEY . '.routes.ignore.uris'));
+    }
+
+    public function ignoreHttpMethods(array $httpMethods): void
+    {
+        $value = implode(',', $httpMethods);
+        Config::set(ConfigEnum::CONFIG_KEY . '.routes.ignore.methods', $value);
+    }
+
+    public function getIgnoreHttpMethods(): array
+    {
+        return explode(',', Config::get(ConfigEnum::CONFIG_KEY . '.routes.ignore.methods'));
     }
 
     public function prefix(?string $prefix): void
     {
-        Config::set('escolalms_tracker.routes.prefix', $prefix);
+        Config::set(ConfigEnum::CONFIG_KEY . '.routes.prefix', $prefix);
     }
 
     public function getPrefix(): string
     {
-        return Config::get('escolalms_tracker.routes.prefix');
+        return Config::get(ConfigEnum::CONFIG_KEY . '.routes.prefix');
     }
 }

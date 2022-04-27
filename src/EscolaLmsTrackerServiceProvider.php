@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Tracker;
 
+use EscolaLms\Tracker\Enums\ConfigEnum;
 use EscolaLms\Tracker\Http\Middleware\TrackRouteMiddleware;
 use EscolaLms\Tracker\Providers\SqliteServiceProvider;
 use EscolaLms\Tracker\Repositories\Contracts\TrackRouteRepositoryContract;
@@ -20,8 +21,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class EscolaLmsTrackerServiceProvider extends ServiceProvider
 {
-    public const CONFIG_KEY = 'escolalms_tracker';
-
     public const SERVICES = [
         TrackRouteServiceContract::class => TrackRouteService::class,
     ];
@@ -39,7 +38,7 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config.php', self::CONFIG_KEY);
+        $this->mergeConfigFrom(__DIR__ . '/config.php', ConfigEnum::CONFIG_KEY);
 
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(SqliteServiceProvider::class);
@@ -53,7 +52,7 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
             $this->bootForConsole();
         }
 
-        if (config(self::CONFIG_KEY . '.enabled')) {
+        if (config(ConfigEnum::CONFIG_KEY . '.enabled')) {
             $this->app->make(Kernel::class)
                 ->pushMiddleware(TrackRouteMiddleware::class);
         }
@@ -64,7 +63,7 @@ class EscolaLmsTrackerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->publishes([
-            __DIR__ . '/config.php' => config_path(self::CONFIG_KEY . '.php'),
-        ], self::CONFIG_KEY . '.config');
+            __DIR__ . '/config.php' => config_path(ConfigEnum::CONFIG_KEY . '.php'),
+        ], ConfigEnum::CONFIG_KEY . '.config');
     }
 }

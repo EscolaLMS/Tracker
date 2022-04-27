@@ -6,7 +6,8 @@ return [
     'routes' => [
         'prefix' => env('TRACKER_ROUTE_PREFIX', '/api/admin'),
         'ignore' => [
-            '/api/admin/tracks/routes'
+            'uris' => env('TRACKER_IGNORED_ROUTE', '/api/admin/tracks/routes'),
+            'methods' => env('TRACKER_IGNORED_METHODS', 'GET')
         ]
     ],
 
