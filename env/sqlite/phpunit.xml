@@ -17,6 +17,6 @@
       <env name="DB_DATABASE" value="database.sqlite"/>
       <env name="TRACKER_CONNECTION" value="sqlite"/>
       <env name="TRACKER_CREATE_DATABASE" value="false"/>
-      <env name="TRACKER_DATABASE" value="database.sqlite"/>
+      <env name="TRACKER_DATABASE_PATH" value="database.sqlite"/>
     </php>
 </phpunit>
