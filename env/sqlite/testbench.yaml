@@ -6,7 +6,7 @@ env:
   - DB_USERNAME=postgres
   - DB_PASSWORD=postgres
   - TRACKER_CONNECTION=sqlite
-  - TRACKER_DATABASE=database.sqlite
+  - TRACKER_DATABASE_PATH=database.sqlite
   - TRACKER_CREATE_DATABASE=true
 
 providers:
