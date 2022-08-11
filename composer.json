@@ -24,7 +24,8 @@
       "EscolaLms\\Tracker\\": "src",
       "EscolaLms\\Tracker\\Tests\\": "tests",
       "EscolaLms\\Tracker\\Database\\Factories\\": "database/factories",
-      "EscolaLms\\Tracker\\Database\\Seeders\\": "database/seeders"
+      "EscolaLms\\Tracker\\Database\\Seeders\\": "database/seeders",
+      "EscolaLms\\Tracker\\Database\\Schemas\\": "database/schemas"
     }
   },
   "extra": {

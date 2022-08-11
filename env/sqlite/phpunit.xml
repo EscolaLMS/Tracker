@@ -8,15 +8,15 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false">
-    <testsuite name="Escola Lms Tracker">
-        <directory suffix="Test.php">./tests</directory>
-    </testsuite>
-    <php>
-      <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-      <env name="DB_CONNECTION" value="sqlite"/>
-      <env name="DB_DATABASE" value="database.sqlite"/>
-      <env name="TRACKER_CONNECTION" value="sqlite"/>
-      <env name="TRACKER_CREATE_DATABASE" value="false"/>
-      <env name="TRACKER_DATABASE" value="database.sqlite"/>
-    </php>
+  <testsuite name="Escola Lms Tracker">
+    <directory suffix="Test.php">./tests</directory>
+  </testsuite>
+  <php>
+    <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value="database.sqlite"/>
+    <env name="TRACKER_CONNECTION" value="sqlite"/>
+    <env name="TRACKER_CREATE_DATABASE" value="false"/>
+    <env name="TRACKER_DATABASE" value="database.sqlite"/>
+  </php>
 </phpunit>
