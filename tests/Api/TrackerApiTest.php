@@ -36,6 +36,88 @@ class TrackerApiTest extends TestCase
         $this->assertApiResponse($response, 10);
     }
 
+    public function testIndexWithSorts(): void
+    {
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+
+        $logOne = TrackRoute::factory()->create([
+            'method' => 'GET',
+            'path' => 'First path',
+            'user_id' => $userOne->getKey(),
+        ]);
+
+        $logTwo = TrackRoute::factory()->create([
+            'method' => 'POST',
+            'path' => 'Second path',
+            'user_id' => $userTwo->getKey(),
+        ]);
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'method',
+            'order' => 'asc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logTwo->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'method',
+            'order' => 'desc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logOne->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'path',
+            'order' => 'asc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logTwo->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'path',
+            'order' => 'desc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logOne->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'user_id',
+            'order' => 'asc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logTwo->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'user_id',
+            'order' => 'desc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logOne->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'id',
+            'order' => 'asc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logTwo->getKey());
+
+        $response = $this->actingAs($this->admin, 'api')->json('GET', 'api/admin/tracks/routes', [
+            'order_by' => 'id',
+            'order' => 'desc',
+        ]);
+
+        $this->assertTrue($response->json('data.0.id') === $logTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $logOne->getKey());
+    }
+
     public function testIndexUnauthorized(): void
     {
         $this->json('GET', 'api/admin/tracks/routes')

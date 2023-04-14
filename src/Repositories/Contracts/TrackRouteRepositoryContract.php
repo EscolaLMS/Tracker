@@ -8,5 +8,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface TrackRouteRepositoryContract extends BaseRepositoryContract
 {
-    public function searchAndPaginateByCriteria(array $criteria, ?int $perPage = QueryEnum::PER_PAGE): LengthAwarePaginator;
+    public function searchAndPaginateByCriteria(array $criteria, ?int $perPage = QueryEnum::PER_PAGE, string $column = 'created_at', string $order = 'desc'): LengthAwarePaginator;
 }

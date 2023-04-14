@@ -28,7 +28,9 @@ class TrackRouteRepository extends BaseRepository implements TrackRouteRepositor
 
     public function searchAndPaginateByCriteria(
         array $criteria,
-        ?int $perPage = QueryEnum::PER_PAGE
+        ?int $perPage = QueryEnum::PER_PAGE,
+        string $column = 'created_at',
+        string $order = 'desc'
     ): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
@@ -36,6 +38,7 @@ class TrackRouteRepository extends BaseRepository implements TrackRouteRepositor
 
         return $query
             ->with(['user'])
+            ->orderBy($column, $order)
             ->paginate($perPage);
     }
 
