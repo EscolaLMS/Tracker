@@ -38,6 +38,7 @@ class TrackerApiTest extends TestCase
 
     public function testIndexWithSorts(): void
     {
+        var_dump(1);
         $userOne = User::factory()->create();
         $userTwo = User::factory()->create();
 
