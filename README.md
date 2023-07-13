@@ -63,3 +63,12 @@ Run `./vendor/bin/phpunit` to run tests. See [tests](tests) folder as it's quite
 
 ## Permissions
 Permissions are defined in [seeder](database/seeders/TrackerPermissionSeeder.php)
+
+## Problems
+- No permission to write to the database:
+
+  If you encounter such an error you need to check the permissions of the `database.sqlite` file on the server. If the file is not given write permissions, SQL will throw an error about not being able to write. The file should have at least 0666 permissions.
+  
+- track_routes table not found:
+
+   The error occurs because the migrations that create the tables have not been run. There is only an empty database file. You should run the `php artisan oprimize:clear` or `php artisan cache:clear` command. SqliteServiceProvider will check from the values in the cache whether migrations have been run and if the table does not exist it will create it in the database.
