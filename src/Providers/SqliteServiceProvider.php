@@ -18,6 +18,7 @@ class SqliteServiceProvider extends ServiceProvider
 
             if (!file_exists($databaseFile)) {
                 file_put_contents($databaseFile, '');
+                chmod($databaseFile, 0666);
             }
 
             if (!Cache::get('trackerSqliteCacheCheck')) {

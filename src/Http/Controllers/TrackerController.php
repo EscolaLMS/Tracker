@@ -14,24 +14,24 @@ use Illuminate\Http\JsonResponse;
 
 class TrackerController extends EscolaLmsBaseController implements TrackControllerSwagger
 {
-  private TrackRouteServiceContract $trackRouteService;
+    private TrackRouteServiceContract $trackRouteService;
 
-  public function __construct(TrackRouteServiceContract $trackRouteService)
-  {
-    $this->trackRouteService = $trackRouteService;
-  }
+    public function __construct(TrackRouteServiceContract $trackRouteService)
+    {
+        $this->trackRouteService = $trackRouteService;
+    }
 
-  public function index(TrackRouteListRequest $request): JsonResponse
-  {
-    $results = $this->trackRouteService->getTrackRoutes(
-      TrackRouteSearchDto::instantiateFromRequest($request),
-      PaginationDto::instantiateFromRequest($request),
-      OrderDto::instantiateFromRequest($request),
-    );
+    public function index(TrackRouteListRequest $request): JsonResponse
+    {
+        $results = $this->trackRouteService->getTrackRoutes(
+            TrackRouteSearchDto::instantiateFromRequest($request),
+            PaginationDto::instantiateFromRequest($request),
+            OrderDto::instantiateFromRequest($request),
+        );
 
-    return $this->sendResponseForResource(
-      TrackRouteResource::collection($results),
-      __('Track routes retrieved successfully')
-    );
-  }
+        return $this->sendResponseForResource(
+            TrackRouteResource::collection($results),
+            __('Track routes retrieved successfully')
+        );
+    }
 }
