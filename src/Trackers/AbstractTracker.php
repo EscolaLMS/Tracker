@@ -33,6 +33,18 @@ abstract class AbstractTracker implements TrackerContract
         return Config::get(ConfigEnum::CONFIG_KEY . '.database.connection', env('DB_CONNECTION'));
     }
 
+    public function checkConnection(): bool
+    {
+        $connection = config('escolalms_tracker.database.connection');
+        $databaseFile = config('database.connections.sqlite.database');
+
+        if ($connection === 'sqlite' && !file_exists($databaseFile)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function ignoreUris(array $uris): void
     {
         $value = implode(',', $uris);
