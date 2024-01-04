@@ -14,7 +14,11 @@ class SqliteServiceProvider extends ServiceProvider
         $connection = config('escolalms_tracker.database.connection');
 
         if ($connection === 'sqlite' && config('escolalms_tracker.database.create')) {
-            $databaseFile = config('escolalms_tracker.database.path');
+            $databaseFile = config('database.connections.sqlite.database');
+
+            if (empty($databaseFile)) {
+                return;
+            }
 
             if (!file_exists($databaseFile)) {
                 file_put_contents($databaseFile, '');

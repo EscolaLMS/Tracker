@@ -49,6 +49,7 @@ class RouteTracker extends Tracker implements RouteTrackerContract
         $method = $request->getMethod();
 
         return $this->isEnabled()
+            && $this->checkConnection()
             && $this->hasPrefix($path)
             && !$this->isInIgnoreUri($path)
             && !$this->isInIgnoreHttpMethod($method);

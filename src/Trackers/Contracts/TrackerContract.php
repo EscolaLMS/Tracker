@@ -14,6 +14,8 @@ interface TrackerContract
 
     public function getConnection(): string;
 
+    public function checkConnection(): bool;
+
     public function ignoreUris(array $uris): void;
 
     public function getIgnoreUris(): array;
