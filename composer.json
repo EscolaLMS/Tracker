@@ -3,8 +3,8 @@
   "description": "Escola Headless LMS Tracker",
   "type": "package",
   "require": {
-    "php": "^7.4|^8.0",
-    "laravel/framework": "^8|^9",
+    "php": ">=7.4",
+    "laravel/framework": ">=8.0",
     "escolalms/core": "^1.2.2",
     "escolalms/auth": "^0"
   },
